@@ -1,10 +1,11 @@
-# flash_chat_app
+# Flash Chat App ⚡️
 
-A new Flutter project.
+## Our Goal
+The objective of this project is to learn how to incorporate Firebase into our Flutter apps. We'll be using Firebase Cloud Firestore as well as the Firebase authentication package to equip our app with a cloud-based NoSQL database and secure authentication methods.
 
-## Getting Started
+## What we will create
+We’re going to build a modern messaging app where users can sign up and log in to chat.
 
-This project is a starting point for a Flutter application.
 
 A few resources to get you started if this is your first Flutter project:
 
