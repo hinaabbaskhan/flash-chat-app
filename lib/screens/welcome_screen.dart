@@ -1,3 +1,5 @@
+import 'package:flash_chat_app/screens/login_screen.dart';
+import 'package:flash_chat_app/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -6,11 +8,45 @@ class WelcomeScreen extends StatefulWidget {
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> {
+class _WelcomeScreenState extends State<WelcomeScreen>
+    with SingleTickerProviderStateMixin {
+  AnimationController? controller;
+  Animation? animation;
+  @override
+  void initState() {
+    super.initState();
+    controller =
+        AnimationController(duration: Duration(seconds: 1), vsync: this);
+    animation = CurvedAnimation(parent: controller!, curve: Curves.decelerate);
+    controller!.forward(); //0-----0.5------1
+
+    // controller!.reverse(from: 1); //1-----0
+    // controller!.addStatusListener((status) {
+    //   if (status == AnimationStatus.completed) {
+    //     controller!.reverse(from: 1); //1-----0
+    //   } else if (status == AnimationStatus.dismissed) {
+    //     controller!.forward(); //0-----0.5------1
+    //   }
+    // });
+
+    controller!.addListener(() {
+      setState(() {});
+      print(animation!.value);
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    controller!.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor:
+          Colors.white, // Colors.red.withOpacity(controller!.value),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
@@ -19,9 +55,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           children: <Widget>[
             Row(
               children: <Widget>[
-                Container(
-                  child: Image.asset('images/logo.png'),
-                  height: 60.0,
+                Hero(
+                  tag: 'logo',
+                  child: Container(
+                    child: Image.asset('images/logo.png'),
+                    height: animation!.value * 100,
+                  ),
                 ),
                 Text(
                   'Flash Chat',
