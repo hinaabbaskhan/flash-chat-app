@@ -94,17 +94,29 @@ class _ChatScreenState extends State<ChatScreen> {
                 children: <Widget>[
                   Expanded(
                     child: TextField(
+                      controller: messageController,
                       onChanged: (value) {
                         //Do something with the user input.
+                        textMessage = value;
                       },
                       decoration: kMessageTextFieldDecoration,
                     ),
                   ),
                   TextButton(
-                    onPressed: () {
+                    onPressed: () async {
                       //Implement send functionality.
+                      messageController.clear();
+                      try {
+                        final data = {
+                          "sender": _loggedinUser!.email!,
+                          "text": textMessage ?? 'empty'
+                        };
+                        await firestore.collection('messages').add(data);
+                      } catch (e) {
+                        print(e);
+                      }
                     },
-                    child: Text(
+                    child: const Text(
                       'Send',
                       style: kSendButtonTextStyle,
                     ),
