@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_chat_app/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -51,6 +53,40 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            StreamBuilder(
+              stream: firestore.collection('messages').snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  final messagesList = snapshot.data!.docs.reversed;
+
+                  List<Widget> messageWidgets = [];
+                  for (var message in messagesList) {
+                    final messageSender = message['sender'];
+                    final messageText = message['text'];
+                    final isMe = messageSender == _loggedinUser!.email; //false
+
+                    messageWidgets.add(
+                      MessageBubble(
+                        text: messageText,
+                        sender: messageSender,
+                        isMe: isMe, //true//false
+                      ),
+                    );
+                  }
+                  return Expanded(
+                    child: ListView(
+                      reverse: false,
+                      shrinkWrap: true,
+                      padding: EdgeInsets.all(10),
+                      children: messageWidgets,
+                    ),
+                  );
+                }
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            ),
             Container(
               decoration: kMessageContainerDecoration,
               child: Row(
