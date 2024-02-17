@@ -15,7 +15,7 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
   String? email;
   String? password;
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   },
                   decoration: kTextFieldDecoration.copyWith(
                       hintText: 'Enter your Password')),
-              SizedBox(
+              const SizedBox(
                 height: 24.0,
               ),
               RoundedButton(

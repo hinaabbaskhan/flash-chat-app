@@ -19,7 +19,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   void initState() {
     super.initState();
     controller =
-        AnimationController(duration: Duration(seconds: 3), vsync: this);
+        AnimationController(duration: const Duration(seconds: 3), vsync: this);
     // animation = CurvedAnimation(parent: controller!, curve: Curves.bounceInOut);
     animation = ColorTween(begin: Colors.blueGrey, end: Colors.white)
         .animate(controller!);
@@ -53,7 +53,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
       backgroundColor: animation!.value,
       // Colors.white, // Colors.red.withOpacity(controller!.value),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.0),
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -82,7 +82,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 48.0,
             ),
             RoundedButton(
