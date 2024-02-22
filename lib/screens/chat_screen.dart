@@ -53,32 +53,44 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            StreamBuilder(
+            StreamBuilder<QuerySnapshot>(
               stream: firestore.collection('messages').snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  final messagesList = snapshot.data!.docs.reversed;
-
-                  List<Widget> messageWidgets = [];
-                  for (var message in messagesList) {
-                    final messageSender = message['sender'];
-                    final messageText = message['text'];
-                    final isMe = messageSender == _loggedinUser!.email; //false
-
-                    messageWidgets.add(
-                      MessageBubble(
-                        text: messageText,
-                        sender: messageSender,
-                        isMe: isMe, //true//false
-                      ),
-                    );
-                  }
+                  final List<dynamic> messagesList = snapshot.data!.docs;
+                  // List<Widget> messageWidgets = [];
+                  // for (var message in messagesList) {
+                  //   final messageSender = message['sender'];
+                  //   final messageText = message['text'];
+                  //   final isMe = messageSender == _loggedinUser!.email; //false
+                  //
+                  //   messageWidgets.add(
+                  //     MessageBubble(
+                  //       text: messageText,
+                  //       sender: messageSender,
+                  //       isMe: isMe, //true//false
+                  //     ),
+                  //   );
+                  // }
+                  // return Expanded(
+                  //   child: ListView(
+                  //     reverse: false,
+                  //     shrinkWrap: true,
+                  //     padding: EdgeInsets.all(10),
+                  //     children: messageWidgets,
+                  //   ),
+                  // );
                   return Expanded(
-                    child: ListView(
-                      reverse: false,
-                      shrinkWrap: true,
-                      padding: EdgeInsets.all(10),
-                      children: messageWidgets,
+                    child: ListView.builder(
+                      itemCount: messagesList.length,
+                      itemBuilder: (context, index) {
+                        return MessageBubble(
+                          text: messagesList[index]['text'],
+                          sender: messagesList![index]['sender'],
+                          isMe: _loggedinUser!.email ==
+                              messagesList![index]['sender'], //true//false
+                        );
+                      },
                     ),
                   );
                 }
